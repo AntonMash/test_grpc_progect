@@ -1,5 +1,5 @@
 from __future__ import print_function
-import time
+
 import os
 import random
 
@@ -7,7 +7,6 @@ import cars_info_pb2
 import cars_info_pb2_grpc
 import grpc
 from loguru import logger
-
 
 logger.add('debug_client.log', format="{time},{level},{message}", level='DEBUG')
 
@@ -37,38 +36,30 @@ def get_info_for_brand(stub, id):
 
 @logger.catch()
 def start(stub):
-    while True:
-        # 1
-        user_answer = input("""
+    print("""
         Приветствуем Вас в нашем мини каталоге автомоболией!
-        
-        Выберите один из вариантов (ввести число): 
+    
+        Вы можете:
         1 - Получить информацию об автомобиле по id 
         2 - Получить информацию о рандомных 10 автомобилях
-           
-        3 - Получить информацию обо всех моделях марки выбранной марки.
-         Чтобы выйти нажмите 'q'.
-        
+        3 - Получить информацию обо всех моделях марки.)
+    
         """)
-        if user_answer == "1":
-            id_model = int(input("введите id модели"))
-            get_one_model_info(stub, id_model)
 
+    print("Инфо об автомобиле с id = 5")
+    get_one_model_info(stub, 5)
 
-        elif user_answer == "2":
-            for x in range(1, 15):
-                id = random.randint(1, 10)
-                get_one_model_info(stub, id)
-                print()
-            time.sleep(10)
+    print("""
+        Инфо о рандомных 10 автомобилях
+        """)
+    for x in range(1, 11):
+        id = random.randint(1, 20)
+        print(f"Инфо об автомобиле с id = {id}")
+        get_one_model_info(stub, id)
+        print('')
 
-        elif user_answer == "3":
-            get_info_for_brand(stub, 3)
-            time.sleep(3)
-
-
-        elif user_answer == "q":
-            break
+    print("Инфо обо всех моделях марки c id 3")
+    get_info_for_brand(stub, 3)
 
 
 
@@ -78,7 +69,6 @@ def run():
     with grpc.insecure_channel(f"{HOST}:50051") as channel:
         stub = cars_info_pb2_grpc.InfoStub(channel)
         start(stub)
-
 
 
 if __name__ == '__main__':

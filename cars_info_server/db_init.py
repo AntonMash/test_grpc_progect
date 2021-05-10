@@ -3,6 +3,7 @@ import psycopg2
 import psycopg2.extras
 from loguru import logger
 
+
 DB_HOST = "db"
 DB_NAME = "postgres"
 DB_USER = "postgres"
@@ -21,6 +22,8 @@ def connect_to_db():
         record = cursor.fetchone()
         logger.info("Testing connection")
         logger.info("You are connected to - {} ", record[0])
+        response = "OK"
+        return response
     except (Exception, psycopg2.DatabaseError) as error:
         logger.error("Error while connecting to PostgreSQL", error)
     finally:
@@ -92,9 +95,16 @@ def insert_data_into_tables():
             ('Q3',2020,1),
             ('X5',2020,2),
             ('X3',2017,2),
+            ('M6',2010,2),
             ('Accord',2015,3),
+            ('Civic',2010,3),
+            ('CR-V',2013,3),
             ('XTrail',2014,4),
+            ('Teana',2013,4),
+            ('Terrano',2018,4),
             ('Impreza',2008,5),
+            ('Forester',2012,5),
+            ('Outback',2010,5),
 
         ]
 
@@ -105,14 +115,21 @@ def insert_data_into_tables():
         # Заполняем данными таблицу price
         insert_query_to_price = """ INSERT INTO price (price,modelId) VALUES (%s,%s)"""
         records_to_insert_to_price = [
-            (1566656.00, 1),
-            (1899656.00, 2),
-            (2366656.00, 3),
-            (1665556.00, 4),
-            (1766656.00, 5),
-            (1935956.00, 6),
-            (1521356.00, 7),
-            (866656.00, 8),
+            (1566600.00, 1),
+            (1899600.00, 2),
+            (2366600.00, 3),
+            (1665500.00, 4),
+            (1766600.00, 5),
+            (1935900.00, 6),
+            (1521300.00, 7),
+            (1266600.00, 8),
+            (1366600.00, 9),
+            (12563400.00, 10),
+            (1634000.00, 11),
+            (954000.00, 12),
+            (866656.00, 13),
+            (2455000.00, 14),
+            (1857000.00, 15),
         ]
 
         cur.executemany(insert_query_to_price, records_to_insert_to_price)

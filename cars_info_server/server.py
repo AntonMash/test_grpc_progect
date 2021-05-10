@@ -17,7 +17,7 @@ DB_PORT = os.getenv("DB_PORT", 5432)
 DB_PASSWORD = os.getenv("DB_PASSWORD", 'admin')
 
 @logger.catch()
-def select_data(id):
+def get_model_data_from_bd(id):
     try:
         # Подключаемся к базе данных
         connection = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
@@ -48,7 +48,7 @@ def select_data(id):
             connection.close()
 
 @logger.catch()
-def select_brand(id):
+def get_brand_data_from_bd(id):
     try:
         # Подключаемся к базе данных
         connection = psycopg2.connect(dbname=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
@@ -98,20 +98,20 @@ class CarsInfo(cars_info_pb2_grpc.InfoServicer):
     @logger.catch()
     def GetInfoForModel(self, request, context):
         # ищем моель по id в базе
-        car_info = select_data(request.modelId)
+        car_info = get_model_data_from_bd(request.modelId)
         logger.info('db response {}', car_info)
 
         if not car_info:
             logger.warning("Model with this modelId was not found")
             return ResponseForOneModel(info=[])
-            # context.abort(grpc.StatusCode.NOT_FOUND, "Car not found")
+            # context.abort(grpc.StatusCode.NOT_FOUND, "Model with this id not found")
         brand, model, year, price = car_info
         response = get_info_response(brand, model, year, price)
         return ResponseForOneModel(info=response)
 
     @logger.catch()
     def GetInfoForBrand(self, request, context):
-        brand_info = select_brand(request.brandId)
+        brand_info = get_brand_data_from_bd(request.brandId)
         if not brand_info:
             logger.warning("Brand with this brandId was not found")
             return ResponseInfoForBrand([])

@@ -1,23 +1,22 @@
 # test_grpc_progect
 
-Старт
+##Старт
 
-1) Создать образ 
+####1) Создать образ 
+    docker-compose build
 
-docker-compose build
+####2) Запустить контейнер с базой в терминале 
 
-2) Запустить контейнер с базой в терминале 
+    docker-compose up bd
 
-  docker-compose up bd
+####3) Запустить контейнер с сервером
 
-3) Запустить контейнер с сервером
+    docker-compose up server
 
-docker-compose up server
+####4) Запустить  в контейнере serve файл db_init.py для созданияданных в базе.
 
-4) Запустить  в контейнере serve файл db_init.py для созданияданных в базе.
+    docker-compose exeс server python db_init.py
 
-docker-compose exeс server python db_init.py
+####5) Запустить контейнер с клиентом
 
-5) Запустить контейнер с клиентом
-
-docker-compose up client
+    docker-compose up client
