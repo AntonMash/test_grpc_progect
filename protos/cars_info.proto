@@ -1,0 +1,33 @@
+syntax = 'proto3';
+
+message RequestForOneModel{
+   int32 modelId = 1;
+}
+
+message RequestForBrand{
+   int32 brandId = 1;
+}
+
+message InfoForOneModel{
+  string brand =1;
+  string model =2;
+  int32 year =3;
+  float price =4;
+}
+
+message ResponseInfoForBrand{
+  string brand =1;
+  string model =2;
+  int32 year =3;
+  float price =4;
+
+}
+
+message ResponseForOneModel{
+  repeated InfoForOneModel info = 1;
+}
+
+service Info{
+  rpc GetInfoForModel(RequestForOneModel) returns (ResponseForOneModel){}
+  rpc GetInfoForBrand(RequestForBrand) returns (stream ResponseInfoForBrand){}
+}
