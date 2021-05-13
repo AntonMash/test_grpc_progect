@@ -3,7 +3,7 @@
 ##Старт
 
 ####1) Создать образ 
-    docker-compose build
+    docker-compose up bd
 
 ####2) Запустить контейнер с базой в терминале 
 
@@ -15,7 +15,7 @@
 
 ####4) Запустить  в контейнере serve файл db_init.py для созданияданных в базе.
 
-    docker-compose exeс server python db_init.py
+    docker-compose exec server python db_init.py
 
 ####5) Запустить контейнер с клиентом
 
